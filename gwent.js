@@ -1708,7 +1708,15 @@ class UI {
 	initYouTube(){
 		this.youtube = new YT.Player('youtube', {
 			videoId: "UE9fPWy1_o4",
-			playerVars:  { "autoplay" : 1, "controls" : 0, "loop" : 1, "playlist" : "UE9fPWy1_o4", "rel" : 0, "version" : 3, "modestbranding" : 1 },
+			playerVars:  {
+        "autoplay" : Storage.isMusicPlaying,
+        "controls" : 0,
+        "loop" : 1,
+        "playlist" : "UE9fPWy1_o4",
+        "rel" : 0,
+        "version" : 3,
+        "modestbranding" : 1
+      },
 			events: { 'onStateChange': initButton }
 		});
 
@@ -1733,9 +1741,15 @@ class UI {
 		if (this.youtube.getPlayerState() !== YT.PlayerState.PLAYING) {
 			this.youtube.playVideo();
 			this.toggleMusic_elem.classList.remove("fade");
+
+      Storage.isMusicPlaying = true;
+      window.localStorage.setItem('isMusicPlaying', 'true');
 		} else {
 			this.youtube.pauseVideo();
 			this.toggleMusic_elem.classList.add("fade");
+
+      Storage.isMusicPlaying = false;
+      window.localStorage.setItem('isMusicPlaying', 'false');
 		}
 	}
 
